@@ -1,0 +1,6 @@
+building_id,total_records,anomaly_count,avg_electricity,anomaly_rate
+Eagle_health_Reba,16563,1639,0.36,9.9
+Eagle_office_Francis,17240,212,0.31,1.23
+Eagle_education_Will,16755,144,0.1,0.86
+Eagle_office_Henriette,16995,56,0.03,0.33
+Eagle_education_Wesley,16976,37,0.11,0.22

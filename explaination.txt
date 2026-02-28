@@ -1,0 +1,18 @@
+✅ Model Fitness Report
+1. Score Separation — GOOD ✅
+Normal records score -0.092 vs anomalies at +0.018 — a gap of +0.11. The Isolation Forest is clearly pushing anomalies to a higher score range, meaning the model has learned a real signal.
+2. Ensemble Quality — GOOD ✅
+All 3 individual models independently flag exactly 5% each (matching the contamination setting), showing they're all working correctly. The ensemble's majority-vote conservatively narrows this down to 2.47% — only flagging what multiple models agree on. This reduces false positives significantly.
+3. Temporal Structure — GOOD ✅
+
+Monthly anomaly std: 1.02% — anomalies vary meaningfully by season, not randomly scattered
+Hourly anomaly std: 2.03% — strong time-of-day pattern (midnight peaks), which is physically meaningful for building energy
+
+4. ⚠️ Eagle_health_Reba — Needs Attention
+This building has a 9.9% anomaly rate but the anomalous electricity is only 1.03x higher than normal (0.365 vs 0.355). This means the model is detecting multivariate anomalies — not just electricity spikes but unusual combinations of chilled_water, steam, temperature etc. However, it's worth investigating whether this building genuinely has issues or if it just has a different consumption pattern that the model hasn't learned well.
+5. ⚠️ LightGBM-style concern — Month "0" in data
+Your monthly groupby shows a month=0 bucket (191 anomalies) which shouldn't exist — months go 1–12. This means some timestamps parsed incorrectly (the 60.53% missing timestamp issue from earlier). These rows should be dropped or verified.
+
+Overall Verdict
+CriterionStatusScore separation✅ Clear gapEnsemble agreement✅ Conservative & consistentTemporal patterns✅ Structured, not randomContamination alignment✅ Models calibrated correctlyReba anomaly magnitude⚠️ Weak electricity signalTimestamp quality⚠️ ~1.3% rows have bad timestamps
+The model is fit for an internship/portfolio project. For production use, you'd want to investigate Reba separately and clean the timestamp nulls before retraining.
